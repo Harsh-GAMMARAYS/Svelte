@@ -1,22 +1,33 @@
 <script>
-  let name = 'World';
-  let beltColor = 'Black';
+  import Modal from './lib/Modal.svelte';
 
-  const handleClick = () => {
-    beltColor = 'blue'
-  }
+  let people = [
+    { name: "yoshi", beltColor: "black", age: 25, id: 1 },
+    { name: "mario", beltColor: "orange", age: 15, id: 2 },
+    { name: "luigi", beltColor: "brown", age: 21, id: 3 },
+  ];
 
-  const handleInput = (e) => {
-    beltColor = e.target.value;
-  }
+  const handleClick = (id) => {
+    people = people.filter((person) => person.id != id);
+    console.log(id);
+  };
+
 </script>
 
+<Modal />
 <main>
-  <h1>Hello {name}</h1>
-  <p style="color: {beltColor}">{beltColor} belt</p>
-  <button on:click={handleClick}>Update belt color</button>
-  <!-- <input type="text" on:input={handleInput} value={beltColor}> -->
-   <input type="text" bind:value={beltColor}>
+  {#each people as person (person.id)}
+    <div>
+      <h4>{person.name}</h4>
+      {#if person.beltColor === 'black'}
+        <p><strong>MASTER NINJA</strong></p>
+      {/if}
+      <p>{person.age} years old, {person.beltColor} belt.</p>
+      <button on:click={() => handleClick(person.id)}>delete </button>
+    </div>
+  {:else}
+    <p>There are no people to show</p>
+  {/each}
 </main>
 
 <style>
@@ -27,17 +38,9 @@
     margin: 0 auto;
   }
 
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
-
   @media (min-width: 640px) {
     main {
       max-width: none;
     }
   }
 </style>
-
