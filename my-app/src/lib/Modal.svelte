@@ -1,12 +1,13 @@
 <script>
-    let showModal = true;
-    let isPromo = false;
+    export let showModal = false;
+    export let isPromo = false;
 </script>
 
 {#if showModal}
-    <div class="backdrop" class:promo={isPromo}>
+    <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
+    <div class="backdrop" class:promo={isPromo} on:click|self>
         <div class="modal">
-            <p>Sign up for offers!</p>
+            <slot></slot>
         </div>
     </div>
 {/if}
@@ -16,7 +17,7 @@
         width: 100%;
         height: 100%;
         position: fixed;
-        background: rgba(0,0,0,0.8);
+        background: rgba(0, 0, 0, 0.8);
     }
 
     .modal {
